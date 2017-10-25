@@ -1191,7 +1191,7 @@ class VisibilityCalculator(object):
                 if 'LWB_NARROW' in aperture_name:
                     x_idl_verts -= 8
                 elif 'SWB_NARROW' in aperture_name:
-                    x_idl_verts -= 8
+                    x_idl_verts -= -8
                 verts = np.concatenate([x_idl_verts[:,np.newaxis], y_idl_verts[:,np.newaxis]], axis=1)
                 patch = Polygon(verts, alpha=0.5)
                 mask_artists.append(patch)
