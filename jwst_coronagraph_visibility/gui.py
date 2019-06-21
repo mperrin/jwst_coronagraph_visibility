@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# vim: set fileencoding=utf8 :
+
 from __future__ import print_function, division
 import sys
 from tkinter import *
@@ -605,14 +605,14 @@ class VisibilityCalculator(object):
         self.ra_value = StringVar()
         ra_entry = ttk.Entry(frame, textvariable=self.ra_value)
         ra_entry.grid(column=1, row=3, sticky=(N, W, E), columnspan=2)
-        ttk.Label(frame, text="º (decimal)").grid(column=3, row=3)
+        ttk.Label(frame, text="� (decimal)").grid(column=3, row=3)
 
         dec_label = ttk.Label(frame, text="Dec:")
         dec_label.grid(column=0, row=4, sticky=(N, W))
         self.dec_value = StringVar()
         dec_entry = ttk.Entry(frame, textvariable=self.dec_value)
         dec_entry.grid(column=1, row=4, sticky=(N, W, E), columnspan=2)
-        ttk.Label(frame, text="º (decimal)").grid(column=3, row=4)
+        ttk.Label(frame, text="� (decimal)").grid(column=3, row=4)
 
         # Lambda and beta (ecliptic longitude and latitude)
         ecliptic_label = ttk.Label(frame, text="Ecliptic coordinates:")
@@ -628,7 +628,7 @@ class VisibilityCalculator(object):
                 self.ecliptic_value.set('')
                 return
             ecliptic_lambda, ecliptic_beta = ad2lb(np.deg2rad(ra), np.deg2rad(dec))
-            ecliptic_display_val = '(l, b) = ({:1.4f}º, {:1.4f}º)'.format(
+            ecliptic_display_val = '(l, b) = ({:1.4f}�, {:1.4f}�)'.format(
                 np.rad2deg(ecliptic_lambda),
                 np.rad2deg(ecliptic_beta)
             )
@@ -646,7 +646,7 @@ class VisibilityCalculator(object):
 
     def _build_companion_controls(self, frame):
         # (show?) PA deg   Sep arcsec
-        ttk.Label(frame, text="PA (º)").grid(column=1, row=0)
+        ttk.Label(frame, text="PA (�)").grid(column=1, row=0)
         ttk.Label(frame, text="Sep (\")").grid(column=2, row=0)
         self.companions, self.companion_widgets = [], []
         for i in range(1, 4):
@@ -1107,12 +1107,25 @@ class VisibilityCalculator(object):
 
 
     def _overlay_mask(self):
+        """
+        Draw the coronagraph focal plane masks and related.
+
+        """
         while self._mask_artists:
             artist = self._mask_artists.pop()
             artist.remove()
 
         aperture = self.result.aperture
+
         aperture_name = aperture.AperName
+
+        # Special handling for NARROW implementation
+        # Draw the wedge with respect to the center of the coronagraph subarray
+        #print("Aperture name: "+aperture_name)
+        #if '_NARROW' in aperture_name:
+        #    aperture=SIAF("NIRCam")[aperture_name[:-7]]
+        #    print("NARROW detected. Mask maser aperture name: "+aperture_name[:-7])
+
         arcsec_per_pixel = np.average([aperture.XSciScale, aperture.YSciScale])
         x_sci_size, y_sci_size = aperture.XSciSize, aperture.YSciSize
         mask_artists = []

@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# vim: set fileencoding=utf8 :
 """
 skyvec2ins JWST Coronagraph Visibility Calculator
 
@@ -19,13 +18,14 @@ scheduling errors.
 
 We stress that the CVC is designed to provide quick illustrations of
 the possible observable orientations for a given target. As such, the
-CVC rapidly approximates JWST’s pointing restrictions and does not
+CVC rapidly approximates JWST�s pointing restrictions and does not
 query the official JWST Proposal Constraint Generator (PCG). The CVC
 does not include detailed pointing restrictions like Earth and Moon
 avoidance, etc. Additionally, results may differ from official
 constraints by a degree or so. Users should treat the results as close
 approximations.
 """
+
 from __future__ import print_function, division
 
 import datetime
